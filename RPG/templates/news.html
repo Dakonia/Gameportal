@@ -1,0 +1,33 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+
+<h1>{{ news.title|safe }}</h1>
+<p>{{ news.text|safe }}</p>
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'post_detail' news.pk %}">
+  {% csrf_token %}
+  {{ response_form.as_p }}
+  <button type="submit">Отправить отклик</button>
+</form>
+{% endif %}
+
+{% if user.is_authenticated and user == news.author %}
+  {% for response in news.responses.all %}
+    <p>{{ response.text }}</p>
+    {% if response.accepted is None %}
+      <a href="{% url 'accept_response' response.id %}">Принять отклик</a>
+      <a href="{% url 'reject_response' response.id %}">Отклонить отклик</a>
+    {% elif response.accepted %}
+      <p>Отклик принят</p>
+    {% else %}
+      <p>Отклик отклонен</p>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+
+<h2>Мои статьи</h2>
+<ul>
+  {% for post in posts %}
+  <div class="post-block">
+    <li>
+      <strong>Заголовок:</strong> {{ post.tittle|safe }}
+      <p>{{ post.text|safe }}</p>
+      <h3>Отклики:</h3>
+      <ul>
+        {% for response in post.responses.all %}
+          <li>
+            <strong>Отклик:</strong> {{ response.text }}
+            {% if response.accepted is None %}
+              <a href="{% url 'accept_response' response.id %}">Принять</a>
+              <a href="{% url 'reject_response' response.id %}">Отклонить</a>
+            {% elif response.accepted %}
+              <p>Отклик принят</p>
+            {% else %}
+              <p>Отклик отклонен</p>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% empty %}
+    <li>Нет статей.</li>
+  {% endfor %}
+  </div>
+</ul>
+
+
+{% endblock content %}
