@@ -2,8 +2,6 @@
 {% block content %}
    <h1>Все новости</h1>
 
-    <h3>{{ time_now|date:'M d Y' }}</h3>
-
    <hr>
 
    {% if user.is_authenticated %}
@@ -27,10 +25,10 @@
             {% endfor %}
          </ul>
 
-         {% if post.author == request.user %}
+         {% if posts.author == request.user %}
             <a href="{% url 'post_update' pk=posts.id %}">Изменить</a>
          {% endif %}
-         {% if perms.new.delete_post %}
+         {% if posts.author == request.user %}
             <a href="{% url 'post_delete' posts.id %}">Удалить</a>
          {% endif %}
       </div>

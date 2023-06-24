@@ -1,18 +1,13 @@
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from .forms import PostForm
-from datetime import datetime
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import  get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Post, Response
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
 from .forms import ResponseForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
@@ -26,7 +21,7 @@ class PostList(ListView):
     paginate_by = 10
 
 
-class PostCreate(CreateView):
+class PostCreate(CreateView, LoginRequiredMixin):
     permission_required = ('new.add_post',)
     raise_exception = True
     form_class = PostForm
@@ -81,14 +76,14 @@ class PostDetail(DetailView):
 
 
 
-class PostUpdate(PermissionRequiredMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
     permission_required = ('new.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
 
 
-class PostDelete(PermissionRequiredMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, DeleteView):
     permission_required = ('new.delete_post',)
     model = Post
     template_name = 'post_delete.html'

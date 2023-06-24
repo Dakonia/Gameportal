@@ -1,6 +1,4 @@
 from django.urls import path
-from django.views.generic import ListView
-from .models import Post
 from .views import PostList, PostCreate, PostDetail, PostUpdate, PostDelete, accept_response, reject_response,AuthorPage
 
 

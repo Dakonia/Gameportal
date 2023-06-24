@@ -7,7 +7,8 @@ from django.conf import settings
 from .models import Registration
 import random
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import Permission
 
 
 def register(request):
@@ -29,6 +30,9 @@ def register(request):
         # Сохраняем пользователя с хешированным паролем
         user.set_password(password)
         user.save()
+
+        group, created = Group.objects.get_or_create(name='authors')
+        user.groups.add(group)
 
         # Создаем запись регистрации
         registration = Registration(user=user, activation_code=activation_code)
@@ -72,7 +76,7 @@ def activate(request):
     return render(request, 'registration/activate.html')
 
 def success(request):
-    return render(request, 'registration/success.html')
+    return redirect('/news')
 
 
 def login_view(request):

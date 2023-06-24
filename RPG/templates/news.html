@@ -6,7 +6,7 @@ Post
 
 {% block content %}
 
-<h1>{{ news.title|safe }}</h1>
+<h1>{{ news.tittle|safe }}</h1>
 <p>{{ news.text|safe }}</p>
 {% if user.is_authenticated %}
 <form method="post" action="{% url 'post_detail' news.pk %}">
