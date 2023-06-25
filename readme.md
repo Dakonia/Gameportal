@@ -2,7 +2,7 @@
 
 To get started, you need to install Django:
 
-pip install django
+***pip install django***
 
 
 Our project consists of two applications:

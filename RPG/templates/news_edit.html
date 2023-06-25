@@ -5,13 +5,16 @@
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 
 <h1>Новость!</h1>
+{% if user.is_authenticated %}
 <hr>
 <form action="" method="post">
     {% csrf_token %}
-<!--    {{ form.media|safe }}-->
     {{ form.as_p|safe }}
     <input type="submit" value="Save" />
+{% else %}
+    <p>У вас нет прав редактировать эту статю</p>
 
+{% endif %}
 
 </form>
 {% endblock content %}
